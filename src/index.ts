@@ -48,3 +48,4 @@ import { COMMON_SITEMAP_PATHS } from "./utils";
     }
   }
 })();
+// npx ts-node src/index.ts https://yoast.com/
