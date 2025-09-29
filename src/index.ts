@@ -1,5 +1,5 @@
-import { processSitemap } from "./processSitemap";
-import { checkRobots } from "./robotsChecker";
+import { processSitemap } from "./process-sitemap";
+import { checkRobots } from "./robots-checker";
 import { COMMON_SITEMAP_PATHS } from "./utils";
 
 (async () => {
@@ -13,7 +13,7 @@ import { COMMON_SITEMAP_PATHS } from "./utils";
 
   if (sitemaps.length > 0) {
     for (let i = 0; i < sitemaps.length; i++) {
-      await processSitemap(sitemaps[i], "sitemap_urls", `sitemap${i + 1}`);
+      await processSitemap(sitemaps[i], "sitemap-urls", `sitemap${i + 1}`);
     }
   } else {
     if (sitemaps.length === 0) {
@@ -28,7 +28,7 @@ import { COMMON_SITEMAP_PATHS } from "./utils";
         try {
           const urls = await processSitemap(
             fallbackUrl,
-            "sitemap_urls",
+            "sitemap-urls",
             `fallback${i + 1}`
           );
           if (urls.length > 0) {

@@ -1,4 +1,4 @@
-const { XMLParser } = require("fast-xml-parser");
+import { XMLParser } from "fast-xml-parser";
 
 export function parseSitemap(xml: string): {
   type: "urlset" | "sitemapindex" | "fallback";

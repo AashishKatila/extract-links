@@ -1,11 +1,11 @@
 import { fetchUrl } from "./fetcher";
 import fs from "fs";
 import path from "path";
-import { parseSitemap } from "./sitemapParser";
+import { parseSitemap } from "./sitemap-parser";
 
 export async function processSitemap(
   sitemapUrl: string,
-  outputDir = "sitemap_urls",
+  outputDir = "sitemap-urls",
   baseName?: string
 ): Promise<string[]> {
   console.log(`[sitemap] Fetching ${sitemapUrl}`);

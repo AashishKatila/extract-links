@@ -12,7 +12,7 @@ export function extractSitemapsFromRobots(content: string): string[] {
 
 export async function checkRobots(
   baseUrl: string,
-  outputDir = "robots_results"
+  outputDir = "robots-results"
 ): Promise<string[]> {
   const robotsUrl = new URL("/robots.txt", baseUrl).toString();
   if (!fs.existsSync(outputDir)) fs.mkdirSync(outputDir, { recursive: true });

@@ -34,6 +34,6 @@ npx ts-node src/index.ts <base_url>
 
 ```
 
-- Output will be saved to robots_results and sitemaps_url.
+- Output will be saved to robots-results and sitemaps-url.
 
 ---
