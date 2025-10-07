@@ -1,7 +1,7 @@
-import { fetchUrl } from "./fetcher";
-import fs from "fs";
+import { fetchSitemap } from "./sitemap-fetcher";
+import { parseSitemapContent } from "./sitemap-parser";
+import { saveUrlsToFile } from "./sitemap-saver";
 import path from "path";
-import { parseSitemap } from "./sitemap-parser";
 
 export async function processSitemap(
   sitemapUrl: string,
@@ -9,34 +9,25 @@ export async function processSitemap(
   baseName?: string
 ): Promise<string[]> {
   console.log(`[sitemap] Fetching ${sitemapUrl}`);
-  const res = await fetchUrl(sitemapUrl);
+
+  const res = await fetchSitemap(sitemapUrl);
   if (!res.success) {
     console.error(`[sitemap] Failed: ${res.error}`);
     return [];
   }
 
-  const parsed = parseSitemap(res.content as string);
-
-  if (!fs.existsSync(outputDir)) {
-    fs.mkdirSync(outputDir, { recursive: true });
-  }
-
+  const parsed = parseSitemapContent(res.content as string);
   let allUrls: string[] = [];
 
   if (parsed.type === "urlset" || parsed.type === "fallback") {
     const urls = parsed.urls || [];
     allUrls.push(...urls);
 
-    const urlParts = sitemapUrl.split("/");
-    const sitemapFileName = urlParts[urlParts.length - 1] || "urls";
-    const filename = path.join(outputDir, `${sitemapFileName}.json`);
-    fs.writeFileSync(filename, JSON.stringify(urls, null, 2));
-    console.log(`[sitemap] Saved ${urls.length} URLs to ${filename}`);
+    const sitemapFileName = path.basename(sitemapUrl) || "urls";
+    saveUrlsToFile(outputDir, sitemapFileName, urls);
   } else if (parsed.type === "sitemapindex") {
     const sitemaps = parsed.sitemaps || [];
-    console.log(
-      `[sitemap] Sitemap ${sitemapUrl}-${sitemaps.length} child sitemaps`
-    );
+    console.log(`[sitemap] Found ${sitemaps.length} child sitemaps`);
 
     for (let i = 0; i < sitemaps.length; i++) {
       const childBaseName = baseName
